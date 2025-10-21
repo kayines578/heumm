@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Untuk Griselda 💌</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #ffd6e8, #fff0f6);
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #envelope {
+      width: 300px;
+      height: 200px;
+      background-color: #ffb6c1;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      transition: transform 0.4s ease;
+    }
+
+    #envelope:hover {
+      transform: scale(1.05);
+    }
+
+    #envelope:before, #envelope:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+
+    #envelope:before {
+      top: 0;
+      left: 0;
+      border-width: 100px 150px 0 150px;
+      border-color: #ff8fab transparent transparent transparent;
+    }
+
+    #letter {
+      display: none;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 2s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff6b81;
+      animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    #reply {
+      display: none;
+      margin-top: 20px;
+      background-color: #ffb6c1;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #reply:hover {
+      background-color: #ff8fab;
+    }
+
+    #response {
+      display: none;
+      font-size: 1.1em;
+      margin-top: 20px;
+      color: #ff6b81;
+    }
+
+    #next {
+      display: none;
+      margin-top: 15px;
+      background-color: #ffb6c1;
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #next:hover {
+      background-color: #ff8fab;
+    }
+  </style>
+</head>
+<body>
+  <div id="envelope"></div>
+  <div id="letter">
+    <h2>Untuk Griselda 💖</h2>
+    <p id="text"></p>
+    <button id="next">Lanjut 💌</button>
+    <button id="reply">Balas 💞</button>
+    <div id="response">Aku juga beruntung punya kamu, Naufal 💗</div>
+  </div>
+
+  <audio id="bgm" loop></audio>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    const textEl = document.getElementById('text');
+    const nextBtn = document.getElementById('next');
+    const replyBtn = document.getElementById('reply');
+    const response = document.getElementById('response');
+    const bgm = document.getElementById('bgm');
+
+    // Kamu bisa ganti src musiknya di sini nanti
+    // bgm.src = 'lagumu.mp3';
+
+    const messages = [
+      'Hai Griselda... 🌸',
+      'Nggak kerasa ya, udah satu tahun kita bareng.',
+      'Satu tahun yang penuh cerita, tawa, dan juga perjuangan.',
+      'Aku cuma mau bilang... makasih banget udah mau sama aku selama ini.',
+      'Makasih udah sabar, udah ngertiin, dan tetap ada buat aku.',
+      'Kamu itu berharga banget buat aku, Selda. 💖',
+      'Aku bersyukur banget bisa kenal kamu, bisa sayang kamu.',
+      'Selamat untuk satu tahun kita... semoga masih banyak tahun yang akan kita lewatin bareng, ya. 💞'
+    ];
+
+    let i = 0;
+
+    envelope.addEventListener('click', () => {
+      envelope.style.display = 'none';
+      letter.style.display = 'block';
+      bgm.play().catch(() => {});
+      showText(messages[i]);
+    });
+
+    function showText(message) {
+      textEl.textContent = '';
+      let index = 0;
+      const typing = setInterval(() => {
+        if (index < message.length) {
+          textEl.textContent += message[index++];
+        } else {
+          clearInterval(typing);
+          nextBtn.style.display = (i < messages.length - 1) ? 'inline-block' : 'none';
+          replyBtn.style.display = (i === messages.length - 1) ? 'inline-block' : 'none';
+        }
+      }, 70);
+
+      createHeart();
+    }
+
+    nextBtn.addEventListener('click', () => {
+      i++;
+      textEl.textContent = '';
+      nextBtn.style.display = 'none';
+      showText(messages[i]);
+    });
+
+    replyBtn.addEventListener('click', () => {
+      response.style.display = 'block';
+      replyBtn.style.display = 'none';
+    });
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
